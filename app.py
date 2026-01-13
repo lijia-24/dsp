@@ -187,11 +187,15 @@ class FusionModelWrapper:
 # ==================== LOAD MODELS ====================
 @st.cache_resource
 def load_models():
-    base_path = "."
     
+    print("DEBUG: Starting to load tokenizer...") # This will appear in logs
     tokenizer = AutoTokenizer.from_pretrained("rafalposwiata/deproberta-large-depression")
+    
+    print("DEBUG: Starting to load text_encoder...")
     text_encoder = AutoModel.from_pretrained("rafalposwiata/deproberta-large-depression").to(device)
     text_encoder.eval()
+    
+    base_path = "."
     
     text_model_state = torch.load(f"{base_path}\\text_best_model.pt", map_location=device)
     with open(f"{base_path}\\text_config.json") as f:
