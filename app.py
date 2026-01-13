@@ -187,7 +187,7 @@ class FusionModelWrapper:
 # ==================== LOAD MODELS ====================
 @st.cache_resource
 def load_models():
-    base_path = "C:\\Users\\User\\OneDrive - Universiti Malaya\\Documents\\Y3S1\\DSP\\Code\\dataproduct"
+    base_path = "."
     
     tokenizer = AutoTokenizer.from_pretrained("rafalposwiata/deproberta-large-depression")
     text_encoder = AutoModel.from_pretrained("rafalposwiata/deproberta-large-depression").to(device)
