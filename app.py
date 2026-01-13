@@ -891,7 +891,7 @@ if page == "🔮 Prediction":
         selected_label = st.selectbox("Select Test Participant:", list(SAMPLE_MAP.keys()))
         pid = SAMPLE_MAP[selected_label]
         
-        base_path = "C:\\Users\\User\\Downloads\\dsp"
+        base_path = os.path.dirname(__file__) 
         audio_path = os.path.join(base_path, f"{pid}_AUDIO.mp3")
         csv_path = os.path.join(base_path, f"{pid}_Transcript.csv")
         
