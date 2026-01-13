@@ -42,7 +42,7 @@ if 'shap_values' not in st.session_state:
 
 # Configure Gemini API
 try:
-    os.environ["GEMINI_API_KEY"] = "AIzaSyBjg2lJ0sargQ3DwllPWdumwbz5TGBNMns"
+    os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=os.environ["GEMINI_API_KEY"])
     GEMINI_AVAILABLE = True
 except:
