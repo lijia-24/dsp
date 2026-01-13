@@ -19,6 +19,7 @@ import nltk
 from nltk.corpus import stopwords
 from sklearn.base import BaseEstimator
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import gc
 
 try:
     nltk.data.find('corpora/stopwords')
@@ -179,7 +180,7 @@ class FusionModelWrapper:
         for i, pred in enumerate(raw_preds):
             text_val = X[i][0]
             audio_val = X[i][1]
-            if text_val > 10.0 and audio_val > 18.0:
+            if text_val > 10.0 and audio_val > 17.0:
                 pred += 4.0
             final_preds.append(np.clip(pred, 0, 24))
         return np.array(final_preds)
@@ -187,18 +188,14 @@ class FusionModelWrapper:
 # ==================== LOAD MODELS ====================
 @st.cache_resource
 def load_models():
-    # This tells Python: "Look in the exact folder where this app.py file is saved"
     base_path = os.path.dirname(__file__) 
     
-    # We join the folder path with the filename using '/' (Linux style) automatically
     text_model_path = os.path.join(base_path, "text_best_model.pt")
     text_cfg_path = os.path.join(base_path, "text_config.json")
 
-    # Now load using these new variables
     tokenizer = AutoTokenizer.from_pretrained("rafalposwiata/deproberta-large-depression")
     text_encoder = AutoModel.from_pretrained("rafalposwiata/deproberta-large-depression").to(device)
     
-    # IMPORTANT: Use the variables we created above
     text_model_state = torch.load(text_model_path, map_location=device)
     with open(text_cfg_path) as f:
         text_cfg = json.load(f)
@@ -863,9 +860,9 @@ def get_severity_guidelines(severity_level):
 SAMPLE_MAP = {
     "Sample 626 (Healthy, PHQ=0)": "626",
     "Sample 606 (Healthy, PHQ=5)": "606",
-    "Sample 655 (Depressed, PHQ=12)": "655",
-    "Sample 716 (Depressed, PHQ=15)": "716",
-    "Sample 624 (Depressed, PHQ=22)": "624"
+    # "Sample 655 (Depressed, PHQ=12)": "655",
+    "Sample 716 (Depressed, PHQ=15)": "716"
+    # "Sample 624 (Depressed, PHQ=22)": "624"
 }
 
 # ==================== SIDEBAR ====================
