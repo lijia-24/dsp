@@ -1,0 +1,14 @@
+streamlit
+torch
+transformers
+librosa
+noisereduce
+joblib
+numpy
+pandas
+plotly
+google-generativeai
+shap
+lime
+nltk
+scikit-learn
