@@ -195,7 +195,7 @@ def load_models():
     text_encoder = AutoModel.from_pretrained("rafalposwiata/deproberta-large-depression").to(device)
     text_encoder.eval()
     
-    base_path = "."
+    base_path = os.path.dirname(__file__)
     
     text_model_state = torch.load(f"{base_path}\\text_best_model.pt", map_location=device)
     with open(f"{base_path}\\text_config.json") as f:
