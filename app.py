@@ -882,8 +882,8 @@ if page == "🔮 Prediction":
         selected_label = st.selectbox("Select Test Participant:", list(SAMPLE_MAP.keys()))
         pid = SAMPLE_MAP[selected_label]
         
-        base_path = "C:/Users/User/OneDrive - Universiti Malaya/Documents/Y3S1/DSP/Code/dataproduct/sample_data"
-        audio_path = os.path.join(base_path, f"{pid}_AUDIO.wav")
+        base_path = "."
+        audio_path = os.path.join(base_path, f"{pid}_AUDIO.mp3")
         csv_path = os.path.join(base_path, f"{pid}_Transcript.csv")
         
         file_check = os.path.exists(audio_path) and os.path.exists(csv_path)
@@ -1608,7 +1608,7 @@ elif page == "📈 Dashboard":
     st.markdown("### 🎯 Accuracy Visualization: Predicted vs. Actual Scores")
     st.markdown("This scatter plot demonstrates the correlation between our AI's predictions and the clinical ground truth (PHQ-8).")
 
-    df_real = pd.read_csv("C:\\Users\\User\\OneDrive - Universiti Malaya\\Documents\\Y3S1\\DSP\\Code\\finalfusion\\fuse_test_prediction.csv")
+    df_real = pd.read_csv("fuse_test_prediction.csv")
     
     df_scatter = pd.DataFrame({
             "Actual Score (Ground Truth)": df_real['gt'], 
