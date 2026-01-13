@@ -216,8 +216,11 @@ def load_models():
     audio_encoder = AutoModel.from_pretrained("ntu-spml/distilhubert").to(device)
     audio_encoder.eval()
     
-    audio_pipeline = os.path.join(base_path, "audio_pipeline.pkl")
-    fusion_bundle = os.path.join(base_path, "fusion_deploy_package.pkl")
+    audio_pipe_path = os.path.join(base_path, "audio_pipeline.pkl")
+    fusion_path = os.path.join(base_path, "fusion_deploy_package.pkl")
+
+    audio_pipeline = joblib.load(audio_pipe_path)
+    fusion_bundle = joblib.load(fusion_path)
     
     return tokenizer, text_encoder, text_model, audio_processor, audio_encoder, audio_pipeline, fusion_bundle
 
