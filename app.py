@@ -187,18 +187,20 @@ class FusionModelWrapper:
 # ==================== LOAD MODELS ====================
 @st.cache_resource
 def load_models():
+    # This tells Python: "Look in the exact folder where this app.py file is saved"
+    base_path = os.path.dirname(__file__) 
     
-    print("DEBUG: Starting to load tokenizer...") # This will appear in logs
+    # We join the folder path with the filename using '/' (Linux style) automatically
+    text_model_path = os.path.join(base_path, "text_best_model.pt")
+    text_cfg_path = os.path.join(base_path, "text_config.json")
+
+    # Now load using these new variables
     tokenizer = AutoTokenizer.from_pretrained("rafalposwiata/deproberta-large-depression")
-    
-    print("DEBUG: Starting to load text_encoder...")
     text_encoder = AutoModel.from_pretrained("rafalposwiata/deproberta-large-depression").to(device)
-    text_encoder.eval()
     
-    base_path = base_path = "C:\\Users\\User\\Downloads\\dsp"
-    
-    text_model_state = torch.load(f"{base_path}\\text_best_model.pt", map_location=device)
-    with open(f"{base_path}\\text_config.json") as f:
+    # IMPORTANT: Use the variables we created above
+    text_model_state = torch.load(text_model_path, map_location=device)
+    with open(text_cfg_path) as f:
         text_cfg = json.load(f)
     
     text_model = GRURegressor(
@@ -214,8 +216,8 @@ def load_models():
     audio_encoder = AutoModel.from_pretrained("ntu-spml/distilhubert").to(device)
     audio_encoder.eval()
     
-    audio_pipeline = joblib.load(f"{base_path}\\audio_pipeline.pkl")
-    fusion_bundle = joblib.load(f"{base_path}\\fusion_deploy_package.pkl")
+    audio_pipeline = os.path.join(base_path, "audio_pipeline.pkl")
+    fusion_bundle = os.path.join(base_path, "fusion_deploy_package.pkl")
     
     return tokenizer, text_encoder, text_model, audio_processor, audio_encoder, audio_pipeline, fusion_bundle
 
